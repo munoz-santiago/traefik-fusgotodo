@@ -5,10 +5,27 @@ log:
 
 api:
   dashboard: true
+  insecure: true
 
 entryPoints:
   web:
     address: ":80"
+  websecure:
+    address: ":443"
 
 providers:
   docker: {}
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: smunoz@wijoca.com
+      storage: /letsencrypt/acme.json
+      httpChallenge:
+        entryPoint: web
+
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
